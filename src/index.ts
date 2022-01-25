@@ -40,5 +40,5 @@ const mirrorTable = async (table: string): Promise<void> => {
 
 (async () => {
 	await Promise.all(tables.map(mirrorTable));
-	console.log(`Complete in ${Math.ceil(totalTime)}ms`);
+	console.log(`Complete in: ${Math.ceil(totalTime)}ms`);
 })();
