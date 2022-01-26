@@ -26,7 +26,7 @@ const mirrorTable = async (table: Table): Promise<void> => {
 	console.log('Fetching table:', table.name);
 
 	try {
-		const ipfs = await create({ url: 'http://localhost:5001/api/v0' });
+		const ipfs = await create({ url: 'http://192.168.1.132:5001/api/v0' });
 
 		if (!fs.existsSync(`./mirrors/${table.name}`)) {
 			fs.mkdirSync(`./mirrors/${table.name}`, { recursive: true });
@@ -96,7 +96,10 @@ const mirrorTable = async (table: Table): Promise<void> => {
 					/** @TODO This does not support nested folders & files. FIX!!! */
 					await ipfs.files.write(ipfsFileLocation, fs.readFileSync(file), {
 						create: true,
+						parents: true,
 					});
+					const { cid } = await ipfs.files.stat(ipfsFileLocation);
+					await ipfs.pin.add(cid);
 				} catch {
 					console.log(`\nFailed to write file ${ipfsFileLocation}\n`);
 				}
