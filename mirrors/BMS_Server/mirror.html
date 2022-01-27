@@ -6,6 +6,59 @@
 	<meta name="bmstable" content="header.json">
 </head>
 <body>
-	<p>Add this page to beatoraja</p>
+	<h1>Bms gayme IPFS Mirror</h1>
+	<h2>Why & What</h2>
+	<h3>What is BMS IPFS?</h3>
+	<p>Beatoraja has support for the IPFS protocol. In theory this allows users to play and download charts inside their client. Sadly it is not taken advantage of (This is what I want to change)</p>
+	<h3>Why all this effort?</h3>
+	<p>For new players, getting started with BMS can be difficult. Especially when it comes to downloading charts. Beatoraja has supported IPFS for a long time however it has been up to the table maintainers to add support.</p>
+	<p>I have created a script to automatically Mirror popular tables, however for now I am just mirroring this small test table.</p>
+	<p>Due to the way IPFS works, the more people that use it the faster downloads are. I hope, that through offering mirrored tables (which will be slightly behind) I can help more people find out about this cool un-used Beatoraja feature.</p>
+	<p>If you run or maintain a popular table. Please reach out to me either on discord <b>pfych#0001</b> or via email <b>anime <i>at</i> tiddi <i>dot</i> es</b>. I am happy to answer any questions and help you take advantage of IPFS</p>
+	<p>I am currently working to make my script as easy to use as possible. It is open sourced here: <a href="https://github.com/pfych/bms-ipfs">https://github.com/pfych/bms-ipfs</a></p>
+	<h3>How does BMS IPFS work?</h3>
+	<p>
+		IPFS is a peer to peer (p2p) file sharing service. Like torrents. However it allows users to fetch specific files via their unique hash without the need for a torrent file.
+		When a user requests a file their local IPFS node saves the file to their BMS folder but also caches it locally to share with other users on the network (like seeding).
+	</p>
+	Read more about it here: <a href='https://docs.ipfs.io/concepts/what-is-ipfs/'>https://docs.ipfs.io/concepts/what-is-ipfs/</a>
+	<p>
+		BMS Tables can add an "ipfs" value to their entries. This entry contains an IPFS CID, Beatoraja can use this CID to request the file from the IPFS network. The more people who have indexed or accessed the file the faster this process will be.
+		You can view an example of what this looks like by viewing this tables data.json file here: <a href='data.json'>data.json</a>.
+	</p>
+
+	<h2>Install steps</h2>
+	<p>Install IPFS Desktop client: <a href='https://docs.ipfs.io/install/ipfs-desktop/'>https://docs.ipfs.io/install/ipfs-desktop/</a></p>
+	<h3>Optional steps (Might make IPFS more reliable):</h3>
+	<ol>
+		<li>
+			Once IPFS installed and running, search the following hash in the top search bar:
+			<pre>QmPjau1s4mjT7t7hCY4aJVJwxwM9Vq87wfFUFLawQj7MXH</pre>
+			<b>CLICK INSPECT</b> not browse
+		</li>
+		<li>Wait for the folder contents to appear, This make take a minute.</li>
+		<li>Once the folder content appears go to the files tab and click import</li>
+		<li>
+			The click "From IPFS" and enter the same hash:
+			<pre>QmPjau1s4mjT7t7hCY4aJVJwxwM9Vq87wfFUFLawQj7MXH</pre>
+		</li>
+		<li>Wait for the folder to import, This may take a few minutes.</li>
+	</ol>
+	<h3>Mandatory steps:</h3>
+	<ol>
+		<li>Beatoraja has not been patched with custom node support yet, this jar is patched: <a href='https://anime.tiddi.es/beatoraja-ipfs.jar'>https://anime.tiddi.es/beatoraja-ipfs.jar</a><br/>Beatoraja supports IPFS but not from local nodes. This jar includes a patch to support local nodes</li>
+		<li>Setup Beatoraja as usual</li>
+		<li>Add this site as a table</li>
+		<li>Under the "Other" tab, check "Enable automatic download of BMS by IPFS"</li>
+		<li>Add your local gateway. This will be in your IPFS app under "Status > Advanced". Its usually: <pre>http://127.0.0.1:8080</pre></li>
+		<li>Launch the game</li>
+		<li>Go to the "gayme table" table</li>
+		<li>When you pick a chart you should see in the top corner of your screen download text</li>
+		<li>It will look like: <pre>downloading:ipfs/chart-name-here</pre></li>
+		<li>Once the file is "found" it will change to look like this (notice size): <pre>downloading:ipfs/chart-name-here: [1mb]</pre>This may take some time.</li>
+		<li>Your client will automatically refresh your BMS folder</li>
+		<li><b>Play the chart! :)</b></li>
+	</ol>
+
 </body>
 </html>
