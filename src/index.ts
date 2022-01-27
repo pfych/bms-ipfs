@@ -68,6 +68,8 @@ const mirrorTable = async (table: Table): Promise<void> => {
 
 		console.log(`${existingCharts.length}/${response.data.length} Exist`);
 
+		console.log('Missing the following charts:', missingCharts);
+
 		let mirrorBody = [];
 
 		for (let chart of existingCharts) {
@@ -122,8 +124,6 @@ const mirrorTable = async (table: Table): Promise<void> => {
 				'utf-8',
 			);
 		}
-
-		console.log('Missing the following charts:', missingCharts);
 	} catch (e) {
 		console.log('Unable to fetch table', e);
 		throw new Error(e);

@@ -10,11 +10,6 @@ export const indexCharts = async (): Promise<Record<string, string>> => {
 	console.log('Indexing local charts');
 
 	try {
-		if (fs.existsSync(cacheFile)) {
-			console.log('Index cache exists');
-			return JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
-		}
-
 		const api = new fdir()
 			.withFullPaths()
 			.withMaxDepth(2)
@@ -24,18 +19,27 @@ export const indexCharts = async (): Promise<Record<string, string>> => {
 		const files = (await api.withPromise()) as string[];
 		lap('got files');
 
+		let cache = {};
+		if (fs.existsSync(cacheFile)) {
+			console.log('Index cache exists');
+			cache = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+		}
+
 		const fileLength = files.length;
-		const index = files.reduce((acc, val) => {
-			process.stdout.write(`\r${index}/${fileLength} hashed`);
-			if (val.match(/\.bm(s|e|son)/)) {
+		const indexed = files.reduce((acc, val, index) => {
+			process.stdout.write(`\r${index + 1}/${fileLength} hashed`);
+			if (val.match(/\.bm(s|e|son)/) && !Object.values(acc).includes(val)) {
+				console.log(' - new file');
 				return { ...acc, [md5File.sync(val)]: val };
 			} else {
 				return { ...acc };
 			}
-		}, {} as Record<string, string>);
+		}, cache as Record<string, string>);
 		lap('hashed files');
 
-		fs.writeFileSync(cacheFile, JSON.stringify(index), 'utf8');
+		fs.writeFileSync(cacheFile, JSON.stringify(indexed), 'utf8');
+
+		return indexed;
 	} catch (e) {
 		console.log('Unable to index charts', e);
 		throw new Error(e);
